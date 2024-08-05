@@ -27,7 +27,6 @@ export default function SignUpForm() {
     password: "",
     passwordConfirm: "",
   });
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState<ErrorMessageType>({
     id: null,
     name: null,
@@ -35,16 +34,28 @@ export default function SignUpForm() {
     password: null,
     passwordConfirm: null,
   });
-  const handleSubmit = () => {};
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isAllFieldsValid()) {
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      users.push(signUpInfo);
+      localStorage.setItem("users", JSON.stringify(users));
+    }
+  };
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>,
-    inputType: string
+    inputType: string,
   ) => {
     setSignUpInfo((prev) => ({ ...prev, [inputType]: e.target.value }));
   };
 
   const isValidateId = useCallback(() => {
+    if (!signUpInfo.id) {
+      setErrorMessage((prev) => ({ ...prev, id: ERROR_MESSAGE.MUST }));
+      return false;
+    }
     if (!isMinLength(signUpInfo.id, 5)) {
       setErrorMessage((prev) => ({ ...prev, id: ERROR_MESSAGE.ID.MIN }));
       return false;
@@ -58,16 +69,16 @@ export default function SignUpForm() {
   }, [signUpInfo.id]);
 
   const isValidateName = useCallback(() => {
-    if (isMinLength(signUpInfo.name, 0)) {
+    if (!signUpInfo.name) {
       setErrorMessage((prev) => ({ ...prev, name: ERROR_MESSAGE.MUST }));
-      return true;
+      return false;
     }
     setErrorMessage((prev) => ({ ...prev, name: null }));
-    return false;
+    return true;
   }, [signUpInfo.name]);
 
   const isValidateEmail = useCallback(() => {
-    if (!isEmailFormat(signUpInfo.email)) {
+    if (signUpInfo.email && !isEmailFormat(signUpInfo.email)) {
       setErrorMessage((prev) => ({
         ...prev,
         email: ERROR_MESSAGE.EMAIL.FORMAT,
@@ -79,26 +90,47 @@ export default function SignUpForm() {
   }, [signUpInfo.email]);
 
   const isValidatePassword = useCallback(() => {
-    if (
-      !isAlphanumeric(signUpInfo.password) ||
-      !isMinLength(signUpInfo.password, 5) ||
-      !isMaxLength(signUpInfo.password, 20)
-    ) {
+    if (!signUpInfo.password) {
+      setErrorMessage((prev) => ({ ...prev, password: ERROR_MESSAGE.MUST }));
+      return false;
+    }
+    if (!isMinLength(signUpInfo.password, 8)) {
+      setErrorMessage((prev) => ({
+        ...prev,
+        password: ERROR_MESSAGE.PASSWORD.MIN,
+      }));
+      return false;
+    }
+    if (!isMaxLength(signUpInfo.password, 20)) {
+      setErrorMessage((prev) => ({
+        ...prev,
+        password: ERROR_MESSAGE.PASSWORD.MAX,
+      }));
+      return false;
+    }
+    if (!isAlphanumeric(signUpInfo.password)) {
       setErrorMessage((prev) => ({
         ...prev,
         password: ERROR_MESSAGE.PASSWORD.FORMAT,
       }));
-      setErrorMessage((prev) => ({ ...prev, password: ERROR_MESSAGE.MUST }));
       return false;
     }
+    setErrorMessage((prev) => ({ ...prev, password: null }));
     return true;
   }, [signUpInfo.password]);
 
   const isValidatePasswordConfirm = useCallback(() => {
+    if (!signUpInfo.passwordConfirm) {
+      setErrorMessage((prev) => ({
+        ...prev,
+        passwordConfirm: ERROR_MESSAGE.MUST,
+      }));
+      return false;
+    }
     if (
-      isPasswordConfirmEqualToPassword(
+      !isPasswordConfirmEqualToPassword(
         signUpInfo.password,
-        signUpInfo.passwordConfirm
+        signUpInfo.passwordConfirm,
       )
     ) {
       setErrorMessage((prev) => ({
@@ -114,96 +146,75 @@ export default function SignUpForm() {
     return true;
   }, [signUpInfo.passwordConfirm, signUpInfo.password]);
 
-  useEffect(() => {
-    if (
-      isValidateEmail() &&
-      isValidateId() &&
-      isValidatePassword() &&
-      isValidateName() &&
-      isValidatePasswordConfirm()
-    ) {
-    }
-  }, [
-    signUpInfo,
-    isValidateEmail,
-    isValidateId,
-    isValidatePassword,
-    isValidateName,
-    isValidatePasswordConfirm,
-  ]);
+  const isAllFieldsValid = () => {
+    let isValid = {
+      id: false,
+      name: false,
+      email: false,
+      password: false,
+      passwordConfirm: false,
+    };
+    isValid.id = isValidateId();
+    isValid.name = isValidateName();
+    isValid.email = isValidateEmail();
+    isValid.password = isValidatePassword();
+    isValid.passwordConfirm = isValidatePasswordConfirm();
+    return Object.values(isValid).every((v) => v);
+  };
 
   return (
-    <div className="h-screen">
+    <div className={"h-screen flex"}>
       <form
         onSubmit={handleSubmit}
-        className="h-screen flex flex-col"
-        //className에 flex flex-col을 하면 적용이 안되는데 왜 그런지 모르겠습니다.
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          margin: "300px auto",
-          width: "500px",
-        }}
+        className="flex flex-col w-[500px] mx-auto mt-[300px]"
+        noValidate
       >
-        <label htmlFor="id" className="block">
-          id
-        </label>
+        <label htmlFor="id">id</label>
         <input
           id="id"
           type="text"
           value={signUpInfo.id}
           onChange={(e) => handleChange(e, "id")}
           className="border border-emerald-600 p-2"
-          style={{
-            border: "1px solid #444444",
-          }}
         />
-        {errorMessage.id && errorMessage.id}
+        {errorMessage.id && <p>{errorMessage.id}</p>}
         <label htmlFor="name">name</label>
         <input
           id="name"
           type="text"
           value={signUpInfo.name}
           onChange={(e) => handleChange(e, "name")}
-          style={{
-            border: "1px solid #444444",
-          }}
+          className="border border-emerald-600 p-2"
         />
-        {errorMessage.name && errorMessage.name}
+        {errorMessage.name && <p>{errorMessage.name}</p>}
         <label htmlFor="email">email</label>
         <input
           id="email"
           type="email"
           value={signUpInfo.email}
           onChange={(e) => handleChange(e, "email")}
-          style={{
-            border: "1px solid #444444",
-          }}
+          className="border border-emerald-600 p-2"
         />
-        {errorMessage.email && errorMessage.email}
-        <label htmlFor="pw">password</label>
+        {errorMessage.email && <p>{errorMessage.email}</p>}
+        <label htmlFor="password">password</label>
         <input
-          id="pw"
+          id="password"
           type="password"
           value={signUpInfo.password}
           onChange={(e) => handleChange(e, "password")}
-          style={{
-            border: "1px solid #444444",
-          }}
+          className="border border-emerald-600 p-2"
         />
-        {errorMessage.password && errorMessage.password}
-        <label htmlFor="pw-cfm">password-confirm</label>
+        {errorMessage.password && <p>{errorMessage.password}</p>}
+        <label htmlFor="confirmPassword">confirm password</label>
         <input
-          id="pw-cfm"
+          id="confirmPassword"
           type="password"
           value={signUpInfo.passwordConfirm}
           onChange={(e) => handleChange(e, "passwordConfirm")}
-          style={{
-            border: "1px solid #444444",
-          }}
+          className="border border-emerald-600 p-2"
         />
-        {errorMessage.passwordConfirm && errorMessage.passwordConfirm}
-        <button disabled={true}>제출</button>
+        {errorMessage.passwordConfirm && <p>{errorMessage.passwordConfirm}</p>}
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
