@@ -133,19 +133,13 @@ export default function SignUpForm() {
   ]);
 
   return (
-    <div>
+    <div className={'h-screen flex'}>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col"
-        //className에 flex flex-col을 하면 적용이 안되는데 왜 그런지 모르겠습니다.
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          margin: "300px auto",
-          width: "500px",
-        }}
+        className="flex flex-col w-[500px] mx-auto mt-[300px]"
+        //className에 flex flex-col을 하면 적용이 안되는데 왜 그런지 모르겠습니다. => 설정 문제였습니다.(tailwind.config.ts 확인해주세요.)
       >
-        <label htmlFor="id" className="block">
+        <label htmlFor="id">
           id
         </label>
         <input
