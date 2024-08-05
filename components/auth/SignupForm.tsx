@@ -166,23 +166,23 @@ export default function SignUpForm() {
           onChange={(e) => handleChange(e, "email")}
         />
         {errorMessage.email && errorMessage.email}
-        <label htmlFor="pw">password</label>
+        <label htmlFor="password">password</label>
         <input
-          id="pw"
+          id="password"
           type="password"
           value={signUpInfo.password}
           onChange={(e) => handleChange(e, "password")}
         />
         {errorMessage.password && errorMessage.password}
-        <label htmlFor="pw-cfm">password-confirm</label>
+        <label htmlFor="confirmPassword">confirm password</label>
         <input
-          id="pw-cfm"
+          id="confirmPassword"
           type="password"
           value={signUpInfo.passwordConfirm}
           onChange={(e) => handleChange(e, "passwordConfirm")}
         />
         {errorMessage.passwordConfirm && errorMessage.passwordConfirm}
-        <button disabled={true}>제출</button>
+        <button type={'submit'} disabled={true}>Submit</button>
       </form>
     </div>
   );
