@@ -5,7 +5,7 @@ const ERROR_MESSAGE = {
     MAX: "최대 15자 이하로 입력해주세요.",
   },
   EMAIL: {
-    FORMAT: "이메일 형식에 맞게 작성해 주세요.",
+    FORMAT: "이메일 형식에 맞게 입력해주세요.",
     IN_USE: "이미 사용중인 이메일 입니다.",
   },
   PASSWORD: {

@@ -145,6 +145,7 @@ export default function SignUpForm() {
       <form
         onSubmit={handleSubmit}
         className="flex flex-col w-[500px] mx-auto mt-[300px]"
+        noValidate
       >
         <label htmlFor="id">id</label>
         <input
