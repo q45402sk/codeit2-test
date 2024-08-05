@@ -37,7 +37,11 @@ export default function SignUpForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    validateAllFields();
+    if (isAllFieldsValid()) {
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      users.push(signUpInfo);
+      localStorage.setItem("users", JSON.stringify(users));
+    }
   };
 
   const handleChange = (
@@ -142,12 +146,20 @@ export default function SignUpForm() {
     return true;
   }, [signUpInfo.passwordConfirm, signUpInfo.password]);
 
-  const validateAllFields = () => {
-    isValidateId();
-    isValidateName();
-    isValidateEmail();
-    isValidatePassword();
-    isValidatePasswordConfirm();
+  const isAllFieldsValid = () => {
+    let isValid = {
+      id: false,
+      name: false,
+      email: false,
+      password: false,
+      passwordConfirm: false,
+    };
+    isValid.id = isValidateId();
+    isValid.name = isValidateName();
+    isValid.email = isValidateEmail();
+    isValid.password = isValidatePassword();
+    isValid.passwordConfirm = isValidatePasswordConfirm();
+    return Object.values(isValid).every((v) => v);
   };
 
   return (
