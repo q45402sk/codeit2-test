@@ -9,7 +9,9 @@ const ERROR_MESSAGE = {
     IN_USE: "이미 사용중인 이메일 입니다.",
   },
   PASSWORD: {
-    FORMAT: "영문 숫자 혼합 8자~20자로 입력해 주세요.",
+    MIN: "최소 8자 이상 입력해주세요.",
+    MAX: "최대 20자 이하로 입력해주세요.",
+    FORMAT: "영문과 숫자만 입력해주세요.",
   },
   PASSWORD_CONFIRM: {
     FORMAT: "영문 숫자 혼합 8자~20자로 입력해 주세요.",

@@ -90,11 +90,21 @@ export default function SignUpForm() {
       setErrorMessage((prev) => ({ ...prev, password: ERROR_MESSAGE.MUST }));
       return false;
     }
-    if (
-      !isAlphanumeric(signUpInfo.password) ||
-      !isMinLength(signUpInfo.password, 8) ||
-      !isMaxLength(signUpInfo.password, 20)
-    ) {
+    if (!isMinLength(signUpInfo.password, 8)) {
+      setErrorMessage((prev) => ({
+        ...prev,
+        password: ERROR_MESSAGE.PASSWORD.MIN,
+      }));
+      return false;
+    }
+    if (!isMaxLength(signUpInfo.password, 20)) {
+      setErrorMessage((prev) => ({
+        ...prev,
+        password: ERROR_MESSAGE.PASSWORD.MAX,
+      }));
+      return false;
+    }
+    if (!isAlphanumeric(signUpInfo.password)) {
       setErrorMessage((prev) => ({
         ...prev,
         password: ERROR_MESSAGE.PASSWORD.FORMAT,
