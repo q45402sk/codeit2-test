@@ -39,7 +39,7 @@ export default function SignUpForm() {
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>,
-    inputType: string
+    inputType: string,
   ) => {
     setSignUpInfo((prev) => ({ ...prev, [inputType]: e.target.value }));
   };
@@ -98,7 +98,7 @@ export default function SignUpForm() {
     if (
       isPasswordConfirmEqualToPassword(
         signUpInfo.password,
-        signUpInfo.passwordConfirm
+        signUpInfo.passwordConfirm,
       )
     ) {
       setErrorMessage((prev) => ({
@@ -133,15 +133,13 @@ export default function SignUpForm() {
   ]);
 
   return (
-    <div className={'h-screen flex'}>
+    <div className={"h-screen flex"}>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col w-[500px] mx-auto mt-[300px]"
         //className에 flex flex-col을 하면 적용이 안되는데 왜 그런지 모르겠습니다. => 설정 문제였습니다.(tailwind.config.ts 확인해주세요.)
       >
-        <label htmlFor="id">
-          id
-        </label>
+        <label htmlFor="id">id</label>
         <input
           id="id"
           type="text"
@@ -186,7 +184,7 @@ export default function SignUpForm() {
           className="border border-emerald-600 p-2"
         />
         {errorMessage.passwordConfirm && errorMessage.passwordConfirm}
-        <button type={'submit'}>Submit</button>
+        <button type={"submit"}>Submit</button>
       </form>
     </div>
   );
