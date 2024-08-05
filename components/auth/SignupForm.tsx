@@ -133,10 +133,10 @@ export default function SignUpForm() {
   ]);
 
   return (
-    <div className="h-screen">
+    <div>
       <form
         onSubmit={handleSubmit}
-        className="h-screen flex flex-col"
+        className="flex flex-col"
         //className에 flex flex-col을 하면 적용이 안되는데 왜 그런지 모르겠습니다.
         style={{
           display: "flex",
