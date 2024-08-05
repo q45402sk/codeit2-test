@@ -148,9 +148,6 @@ export default function SignUpForm() {
           value={signUpInfo.id}
           onChange={(e) => handleChange(e, "id")}
           className="border border-emerald-600 p-2"
-          style={{
-            border: "1px solid #444444",
-          }}
         />
         {errorMessage.id && errorMessage.id}
         <label htmlFor="name">name</label>
@@ -159,9 +156,6 @@ export default function SignUpForm() {
           type="text"
           value={signUpInfo.name}
           onChange={(e) => handleChange(e, "name")}
-          style={{
-            border: "1px solid #444444",
-          }}
         />
         {errorMessage.name && errorMessage.name}
         <label htmlFor="email">email</label>
@@ -170,9 +164,6 @@ export default function SignUpForm() {
           type="email"
           value={signUpInfo.email}
           onChange={(e) => handleChange(e, "email")}
-          style={{
-            border: "1px solid #444444",
-          }}
         />
         {errorMessage.email && errorMessage.email}
         <label htmlFor="pw">password</label>
@@ -181,9 +172,6 @@ export default function SignUpForm() {
           type="password"
           value={signUpInfo.password}
           onChange={(e) => handleChange(e, "password")}
-          style={{
-            border: "1px solid #444444",
-          }}
         />
         {errorMessage.password && errorMessage.password}
         <label htmlFor="pw-cfm">password-confirm</label>
@@ -192,9 +180,6 @@ export default function SignUpForm() {
           type="password"
           value={signUpInfo.passwordConfirm}
           onChange={(e) => handleChange(e, "passwordConfirm")}
-          style={{
-            border: "1px solid #444444",
-          }}
         />
         {errorMessage.passwordConfirm && errorMessage.passwordConfirm}
         <button disabled={true}>제출</button>
