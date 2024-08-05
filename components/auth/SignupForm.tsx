@@ -156,6 +156,7 @@ export default function SignUpForm() {
           type="text"
           value={signUpInfo.name}
           onChange={(e) => handleChange(e, "name")}
+          className="border border-emerald-600 p-2"
         />
         {errorMessage.name && errorMessage.name}
         <label htmlFor="email">email</label>
@@ -164,6 +165,7 @@ export default function SignUpForm() {
           type="email"
           value={signUpInfo.email}
           onChange={(e) => handleChange(e, "email")}
+          className="border border-emerald-600 p-2"
         />
         {errorMessage.email && errorMessage.email}
         <label htmlFor="password">password</label>
@@ -172,6 +174,7 @@ export default function SignUpForm() {
           type="password"
           value={signUpInfo.password}
           onChange={(e) => handleChange(e, "password")}
+          className="border border-emerald-600 p-2"
         />
         {errorMessage.password && errorMessage.password}
         <label htmlFor="confirmPassword">confirm password</label>
@@ -180,9 +183,10 @@ export default function SignUpForm() {
           type="password"
           value={signUpInfo.passwordConfirm}
           onChange={(e) => handleChange(e, "passwordConfirm")}
+          className="border border-emerald-600 p-2"
         />
         {errorMessage.passwordConfirm && errorMessage.passwordConfirm}
-        <button type={'submit'} disabled={true}>Submit</button>
+        <button type={'submit'}>Submit</button>
       </form>
     </div>
   );
